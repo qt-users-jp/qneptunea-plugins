@@ -1,0 +1,23 @@
+# This file is created by MADDE 'dh_fixperms'.
+# MADDE 'dpkg-deb' uses this file when creating
+# 'data.tar.gz' for debian package ar archive.
+755 root root . ./opt /
+755 root root . ./opt/qneptunea /
+755 root root . ./opt/qneptunea/plugins /
+755 root root . ./opt/qneptunea/plugins/service /
+644 root root . ./opt/qneptunea/plugins/service/52_shindanmaker.qml debian/qneptunea-plugin-shindanmaker/opt/qneptunea/plugins/service/52_shindanmaker.qml
+644 root root . ./opt/qneptunea/plugins/service/shindanmaker.png debian/qneptunea-plugin-shindanmaker/opt/qneptunea/plugins/service/shindanmaker.png
+755 root root . ./opt/qneptunea/plugins/settings /
+644 root root . ./opt/qneptunea/plugins/settings/52_shindanmaker.qml debian/qneptunea-plugin-shindanmaker/opt/qneptunea/plugins/settings/52_shindanmaker.qml
+755 root root . ./opt/qneptunea/plugins/settings/shindanmaker /
+644 root root . ./opt/qneptunea/plugins/settings/shindanmaker/ShindanMakerSettings.qml debian/qneptunea-plugin-shindanmaker/opt/qneptunea/plugins/settings/shindanmaker/ShindanMakerSettings.qml
+644 root root . ./opt/qneptunea/plugins/settings/shindanmaker/shindanmaker.png debian/qneptunea-plugin-shindanmaker/opt/qneptunea/plugins/settings/shindanmaker/shindanmaker.png
+755 root root . ./usr /
+755 root root . ./usr/bin /
+755 root root . ./usr/sbin /
+755 root root . ./usr/share /
+755 root root . ./usr/share/doc /
+755 root root . ./usr/share/doc/qneptunea-plugin-shindanmaker /
+644 root root . ./usr/share/doc/qneptunea-plugin-shindanmaker/README.Debian debian/qneptunea-plugin-shindanmaker/usr/share/doc/qneptunea-plugin-shindanmaker/README.Debian
+644 root root . ./usr/share/doc/qneptunea-plugin-shindanmaker/changelog.gz debian/qneptunea-plugin-shindanmaker/usr/share/doc/qneptunea-plugin-shindanmaker/changelog.gz
+644 root root . ./usr/share/doc/qneptunea-plugin-shindanmaker/copyright debian/qneptunea-plugin-shindanmaker/usr/share/doc/qneptunea-plugin-shindanmaker/copyright
