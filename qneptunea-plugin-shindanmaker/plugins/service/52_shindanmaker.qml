@@ -43,7 +43,7 @@ ServicePlugin {
                         root.result = (request.status == 200)
                         if (root.result) {
                             var b = request.responseText
-                            var re = new RegExp("<div style=\"padding: 10px; font-size: 2em;\">[^<div]*");
+                            var re = new RegExp("<div style=\"padding: 10px; font-size: 2em;\">[^]*</div>");
                             var c = b.match(re).shift();
                             var d = c.split('\t');
                             d.shift();
