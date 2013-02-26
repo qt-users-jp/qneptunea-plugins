@@ -60,22 +60,13 @@ ServicePlugin {
         request.setRequestHeader("Origin", "http://shindanmaker.com")
         request.onreadystatechange = function() {
                     switch (request.readyState) {
-                    case XMLHttpRequest.HEADERS_RECEIVED:
-                        break
-                    case XMLHttpRequest.LOADING:
-                        break
                     case XMLHttpRequest.DONE: {
-                        root.result = (request.status == 200)
-                        if (root.result) {
-                            var b = request.responseText
-                            var re = new RegExp("<div style=\"padding: 10px; font-size: 2em;\">[^]*</div>");
-                            var c = b.match(re).shift();
-                            var d = c.split('\t');
-                            d.shift();
-                            var e = d.shift();
-                            pageStack.push(tweetPage, { 'statusText': e.concat(" ").concat(url) } );
+                        if (request.status == 200 && request.responseText.match(/<textarea .+?>([^]*)<\/textarea>/)) {
+                            pageStack.push(tweetPage, { 'statusText': RegExp.$1 } )
+                            root.result = true
                         } else {
                             root.message = request.responseText
+                            root.result = false
                         }
                         root.loading = false
                         break 
@@ -85,6 +76,8 @@ ServicePlugin {
                         root.message = request.responseText
                         root.loading = false
                         break }
+                    default:
+                        break
                     }
                 }
         request.send(postdata);
