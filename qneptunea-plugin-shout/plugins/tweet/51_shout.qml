@@ -36,7 +36,17 @@ TweetPlugin {
     enabled: root.text.length > 0
 
     function exec() {
-        root.text = '＼ %1 ／'.arg(toHankaku(toKatakana(root.text)))
+        root.text = makeShout(root.text)
+    }
+
+    function makeShout(str) {
+        str = str.replace(/^[\s\u3000]+/,"")
+        if (str.match(/^@[a-zA-Z0-9_]+[\s\u3000]/)) {
+            str = RegExp.lastMatch + makeShout(RegExp.rightContext)
+        } else {
+            str = '＼ %1 ／'.arg(toHankaku(toKatakana(str)))
+        }
+        return str
     }
 
     /* Convert charcode function is modified version of libraries by kanaxs project
