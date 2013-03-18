@@ -36,15 +36,26 @@ TweetPlugin {
     enabled: root.text.length > 0
 
     function exec() {
-        root.text = makeShout(root.text)
+
+        if(root.selectionStart !== root.selectionEnd) {
+
+            var frontText = root.text.substring(0, root.selectionStart)
+            var effectedText = makeShout(root.text.substring(root.selectionStart, root.selectionEnd), false)
+            var backText = root.text.substring(root.selectionEnd)
+            root.text = frontText + effectedText + backText
+
+        }
+        else {
+            root.text = makeShout(root.text, true)
+        }
     }
 
-    function makeShout(str) {
+    function makeShout(str, escapeId) {
         str = str.replace(/^[\s\u3000]+/,"")
-        if (str.match(/^@[a-zA-Z0-9_]+[\s\u3000]/)) {
-            str = RegExp.lastMatch + makeShout(RegExp.rightContext)
+        if (str.match(/^@[a-zA-Z0-9_]+[\s\u3000]/) && escapeId) {
+            str = RegExp.lastMatch + makeShout(RegExp.rightContext, true)
         } else {
-            str = '＼ %1 ／'.arg(toHankaku(toKatakana(str)))
+            str = '\uFF3C %1 \uFF0F'.arg(toHankaku(toKatakana(str)))
         }
         return str
     }

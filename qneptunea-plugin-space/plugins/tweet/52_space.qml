@@ -34,18 +34,37 @@ TweetPlugin {
     enabled: root.text.length > 0
 
     function exec() {
-        var ar = root.text.split(' ')
-        var str = ''
 
-        for (var i = 0; i < ar.length; i++) {
-            if(ar[i].charAt(0).match(/@|#/) || ar[i].match(/.*:\/\//)) {
-                str += '%1 '.arg(ar[i])
-            } else {
-                for (var m = 0; m < ar[i].length; m++){
-                    str += '%1 '.arg(ar[i].charAt(m))
+        if(root.selectionStart !== root.selectionEnd) {
+            var frontText = root.text.substring(0, root.selectionStart)
+            var effectedText = insertSpace(root.text.substring(root.selectionStart, root.selectionEnd))
+            var backText = root.text.substring(root.selectionEnd)
+            root.text = frontText + effectedText + backText
+
+        } else {
+            root.text = insertSpace(root.text)
+        }
+    }
+
+    function insertSpace(text) {
+        var ret = ''
+        var lines = text.split('\n')
+        var escape = ['@', '#']
+
+        for (var i = 0; i < lines.length; i++) {
+            var array = lines[i].split(' ')
+            for (var j = 0; j < array.length; j++) {
+                if(escape.indexOf(array[j].charAt(0)) > -1 || array[j].match(/.*:\/\//)) {
+                    ret += '%1 '.arg(array[j])
+                } else {
+                    ret += array[j].split('').join(' ')
                 }
             }
+
+            if(lines.length > 1 && i < lines.length -1) {
+                ret += '\n'
+            }
         }
-        root.text = str
+        return ret
     }
 }

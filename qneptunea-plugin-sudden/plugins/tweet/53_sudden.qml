@@ -34,25 +34,47 @@ TweetPlugin {
     enabled: root.text.length > 0
 
     function exec() {
-        var ar = root.text.split(' ')
-        var str = ''
-        var header = ' ＿'
-        var footer = '　＜\n￣'
-        var byteLength = 0
-        var a = ''
 
-        for (var i = 0; i < ar.length; i++) {
-            if(ar[i].charAt(0).match(/@|#/)) {
-                str += '%1 '.arg(ar[i])
-            } else if (i !== ar.length -1) {
-                a += '%1 '.arg(ar[i])
-            } else {
-                a += '%1'.arg(ar[i])
+        if(root.selectionStart !== root.selectionEnd) {
+
+            var frontText = root.text.substring(0, root.selectionStart) + '\n\n'
+            var effectedText = makeSudden(root.text.substring(root.selectionStart, root.selectionEnd))
+            var backText = root.text.substring(root.selectionEnd)
+            root.text = frontText + effectedText + backText
+
+        } else {
+            var ar = root.text.split(' ')
+            var str = ''
+            var a = ''
+            var escape = [ '@', '#' ]
+
+            for (var i = 0; i < ar.length; i++) {
+                if(escape.indexOf(ar[i].charAt(0)) > -1) {
+                    str += '%1 '.arg(ar[i])
+                } else if (i !== ar.length -1) {
+                    a += '%1 '.arg(ar[i])
+                } else {
+                    a += '%1'.arg(ar[i])
+                }
             }
-        }
 
-        for(var n = 0; n < a.length; n++) {
-            var c = a.charCodeAt(n)
+            if(str !== '') {
+                str += '\n\n%1'.arg(makeSudden(a))
+            } else {
+                str += makeSudden(a)
+            }
+            root.text = str
+        }
+    }
+
+    function makeSudden(str) {
+
+        var header = ' \uFF3F'
+        var footer = '\u3000\uFF1C\n\uFFE3'
+        var byteLength = 0
+
+        for(var n = 0; n < str.length; n++) {
+            var c = str.charCodeAt(n)
             if ( (c >= 0x0 && c < 0x81) || (c === 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
                 byteLength += 1
             } else {
@@ -60,24 +82,14 @@ TweetPlugin {
             }
         }
 
-        var m = 0
-        while(m < byteLength / 2 + 1) {
-            header += '人'
-            if(m !== byteLength / 2) {
-                footer += 'Y^'
-            }
-            m++
+        for (var m = 0; m < byteLength /2; m++) {
+            header += '\u4EBA'
+            footer += 'Y^'
         }
 
-        header += '＿\n＞　'
-        footer += '￣'
+        header += '\u4EBA\uFF3F\n\uFF1E\u3000'
+        footer += 'Y\uFFE3'
 
-        if (str.length !== 0) {
-            str += '\n\n%1%2'.arg(header).arg(a)
-        } else {
-            str += '%1%2'.arg(header).arg(a)
-        }
-        str += footer
-        root.text = str
+        return header + str + footer
     }
 }
