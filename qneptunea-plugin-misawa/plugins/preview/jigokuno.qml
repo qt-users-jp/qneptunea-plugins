@@ -52,7 +52,7 @@ ImagePlugin {
                         if (request.status === 200) {
                             a = request.responseText.match(re)
                             if(a) {
-                                callback(["http://jigokuno.img.jugem.jp/".concat(a[2]),"http://jigokuno.img.jugem.jp/".concat(a[2])])
+                                callback(["http://jigokuno.img.jugem.jp/".concat(a[1]),"http://jigokuno.img.jugem.jp/".concat(a[1])])
                             } else {
                                 callback([excpurl, excpurl])
                             }
